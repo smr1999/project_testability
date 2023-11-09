@@ -43,19 +43,6 @@ class Gate:
     def has_set_value(self, has_set_value_: bool) -> None:
         self.__has_set_value = has_set_value_
 
-    def calculate_level(self) -> int:
-        if self.__level >= 0:
-            return self.__level
-
-        max_input_gate_level = -1
-        for input_wire in self.input_wires:
-            max_input_gate_level = max(
-                input_wire.input_gate.level,
-                max_input_gate_level
-            )
-
-        return max_input_gate_level + 1
-
     @property
     def level(self) -> int:
         return self.__level
@@ -69,7 +56,7 @@ class Gate:
     @property
     def input_wires(self) -> list[Wire]:
         return self.__input_wires
-    
+
     @input_wires.setter
     def output_wires(self, input_wires_: list[Wire]) -> None:
         self.__input_wires = input_wires_
@@ -152,7 +139,7 @@ class Gate:
         self.__validate_after_operation()
 
     def __repr__(self) -> str:
-        return f'<{self.id}:{self.value}, input_wires: ({[input_wire.id for input_wire in self.input_wires]}), output_wires:({[output_wire.id for output_wire in self.output_wires]})>'
+        return f'<{self.id}:{self.value}, level:{self.level}, input_wires: ({[input_wire.id for input_wire in self.input_wires]}), output_wires:({[output_wire.id for output_wire in self.output_wires]})>'
 
 
 class InputGate(Gate):

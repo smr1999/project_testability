@@ -1,6 +1,6 @@
 from project.bench_grammers import *
 from project.enums import (
-    GateType,
+    GateType, 
 )
 
 
@@ -54,3 +54,8 @@ class BenchParser:
             ids,
             gate_type
         )
+
+class InputParser:
+    @classmethod
+    def fetch_list_from_line(cls, line: str) -> list:
+        return line.strip().split(' ')

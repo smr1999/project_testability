@@ -4,8 +4,14 @@ from io import (
 
 from project.gates import *
 from project.wires import *
-from project.parsers import BenchParser
-from project.enums import GateType
+from project.parsers import (
+    BenchParser,
+    InputParser
+)
+from project.enums import (
+    GateType,
+    LogicValue
+)
 
 
 class GateController:
@@ -29,11 +35,6 @@ class GateController:
     def input_gates(self, input_gate_: dict) -> None:
         self.__input_gates = input_gate_
 
-    def add_input_gate(self, id: str, input_gate_: InputGate):
-        assert id not in self.input_gates
-
-        self.input_gates[id] = input_gate_
-
     @property
     def intermidate_gates(self) -> dict:
         return self.__intermidate_gates
@@ -41,12 +42,6 @@ class GateController:
     @intermidate_gates.setter
     def intermidate_gates(self, intermidate_gate_: dict) -> None:
         self.__intermidate_gates = intermidate_gate_
-
-    def add_intermidate_gate(self, id: str, intermidate_gate_: Gate):
-        assert id not in self.intermidate_gates
-        assert intermidate_gate_ not in [InputGate, OutputGate, FanoutGate]
-
-        self.intermidate_gates[id] = intermidate_gate_
 
     @property
     def fanout_gates(self) -> dict:
@@ -56,11 +51,6 @@ class GateController:
     def fanout_gates(self, fanout_gates_: dict) -> None:
         self.__fanout_gates = fanout_gates_
 
-    def add_fanout_gate(self, id: str, fanout_gate_: FanoutGate) -> None:
-        assert id not in self.fanout_gates
-
-        self.fanout_gates[id] = fanout_gate_
-
     @property
     def output_gates(self) -> dict:
         return self.__output_gates
@@ -68,11 +58,6 @@ class GateController:
     @output_gates.setter
     def output_gates(self, output_gate_: dict) -> None:
         self.__output_gates = output_gate_
-
-    def _add_output_gate(self, id: str, output_gate_: OutputGate):
-        assert id not in self.output_gates
-
-        self.output_gates[id] = output_gate_
 
     def __update_primay_gates(self) -> None:
         line = self.bench_file_object.readline()
@@ -159,10 +144,40 @@ class GateController:
                 gate.add_output_wire(wire)
                 fanout_gate.add_input_wire(wire)
 
-    def update_gates(self) -> None:
-        self.__update_primay_gates()
-        self.__update_fanout_gates()
-        self.__add_connection_to_output_gates()
+    def __update_gates_level(self) -> None:
+        gate_queue: list[Gate] = list(self.input_gates.values())
+
+        start_point: int = 0
+        while len(gate_queue) != 0:
+            assert start_point != len(gate_queue)
+
+            temp_gate: Gate = gate_queue[start_point]
+
+            if isinstance(temp_gate, InputGate):
+                temp_gate.level = 0
+            else:
+                max_input_gate_level: int = 0
+                for input_wire in temp_gate.input_wires:
+                    if input_wire.input_gate.level == -1:
+                        break
+                    else:
+                        max_input_gate_level = max(
+                            max_input_gate_level,
+                            input_wire.input_gate.level
+                        )
+                else:
+                    temp_gate.level = max_input_gate_level + 1
+
+            if temp_gate.level == -1:
+                start_point += 1
+            else:
+                gate_queue.pop(start_point)
+
+                for wire in temp_gate.output_wires:
+                    if wire.output_gate not in gate_queue and wire.output_gate.level == -1:
+                        gate_queue.append(wire.output_gate)
+
+                start_point = 0
 
     def display_gates(self) -> None:
         for _, gate in self.input_gates.items():
@@ -176,6 +191,75 @@ class GateController:
 
         for _, gate in self.output_gates.items():
             print(gate)
+
+    def inject_and_execute(self, inject_values: dict) -> None:
+        assert len(self.input_gates) == len(inject_values)
+
+        for id, value in inject_values.items():
+            input_gate: Gate = self.input_gates.get(id, None)
+            assert input_gate
+
+            input_gate.set_value_and_propagate(value)
+
+        temp_gates: list[Gate] = list(self.intermidate_gates.values(
+        )) + list(self.fanout_gates.values()) + list(self.output_gates.values())
+
+        levelize_gates: dict = {}
+        for temp_gate in temp_gates:
+            if temp_gate.level not in levelize_gates:
+                levelize_gates[temp_gate.level] = [temp_gate]
+            else:
+                levelize_gates[temp_gate.level].append(temp_gate)
+
+        max_network_level: int = max(list(levelize_gates.keys()))
+
+        for level in range(1, max_network_level + 1):
+            for gate in levelize_gates[level]:
+                gate.set_value_and_propagate()
+
+    def run(self) -> None:
+        self.__update_primay_gates()
+        self.__update_fanout_gates()
+        self.__add_connection_to_output_gates()
+        self.__update_gates_level()
+
+
+class InputController:
+    def __init__(self, input_file_object: TextIOWrapper) -> None:
+        self.__input_file_object: TextIOWrapper = input_file_object
+
+        self.__inputs: dict = {}
+
+    @property
+    def input_file_object(self) -> TextIOWrapper:
+        return self.__input_file_object
+
+    @property
+    def inputs(self) -> dict:
+        return self.__inputs
+
+    @inputs.setter
+    def inputs(self, inputs_: dict) -> None:
+        self.__inputs = inputs_
+
+    def __update_inputs(self) -> None:
+        lines = self.input_file_object.readlines()
+        assert len(lines) == 2
+
+        ids = InputParser.fetch_list_from_line(lines[0])
+        values = InputParser.fetch_list_from_line(lines[1])
+
+        assert len(ids) == len(values)
+
+        self.inputs = dict(zip(ids, values))
+
+    def __validate_inputs(self) -> None:
+        for id, value in self.inputs.items():
+            assert value in LogicValue.list_values()
+
+    def run(self) -> None:
+        self.__update_inputs()
+        self.__validate_inputs()
 
 
 class Controller:
@@ -191,12 +275,23 @@ class Controller:
         )
 
     def __initilize_controllers(self) -> None:
+        assert self.bench_file_name
         self.__gate_controller = GateController(
             bench_file_object=self.__read_file(self.bench_file_name)
+        )
+
+        assert self.input_file_name
+        self.__input_controller = InputController(
+            input_file_object=self.__read_file(self.input_file_name)
         )
 
     def run(self):
         self.__initilize_controllers()
 
-        self.__gate_controller.update_gates()
+        self.__gate_controller.run()
+        self.__input_controller.run()
+
+        self.__gate_controller.inject_and_execute(
+            self.__input_controller.inputs)
+
         self.__gate_controller.display_gates()
