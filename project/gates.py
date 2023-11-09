@@ -69,6 +69,10 @@ class Gate:
     @property
     def input_wires(self) -> list[Wire]:
         return self.__input_wires
+    
+    @input_wires.setter
+    def output_wires(self, input_wires_: list[Wire]) -> None:
+        self.__input_wires = input_wires_
 
     def add_input_wire(self, input_wire_: Wire) -> None:
         assert input_wire_.output_gate == self
@@ -85,6 +89,10 @@ class Gate:
     @property
     def output_wires(self) -> list[Wire]:
         return self.__output_wires
+
+    @output_wires.setter
+    def output_wires(self, output_wires_: list[Wire]) -> None:
+        self.__output_wires = output_wires_
 
     def add_output_wire(self, output_wire_: Wire) -> None:
         assert output_wire_.input_gate == self
