@@ -12,15 +12,22 @@ from project.controllers.input_controller import (
 
 
 class MainController:
-    def __init__(self, bench_file_name: str, input_file_name: str, test_input_file_name: str) -> None:
+    def __init__(self, bench_file_name: str, input_file_name: str, test_input_file_name: str, true_value_result_file_name: str) -> None:
         self.bench_file_name: str = bench_file_name
         self.input_file_name: str = input_file_name
         self.test_vector_file_name: str = test_input_file_name
+        self.true_value_result_file_name: str = true_value_result_file_name
 
     def __read_file(self, file_dir_: str) -> TextIOWrapper:
         return open(
             file=file_dir_,
             mode='r'
+        )
+
+    def __write_file(self, file_dir_: str) -> TextIOWrapper:
+        return open(
+            file=file_dir_,
+            mode='w'
         )
 
     def __initilize_controllers(self) -> None:
@@ -48,4 +55,10 @@ class MainController:
         )
         print('Inputs injected to network and gated has been executed.')
 
-        self.__network_controller.display_gates()
+        # self.__network_controller.display_gates()
+        self.__network_controller.write_nets(
+            result_file_object=self.__write_file(
+                file_dir_=self.true_value_result_file_name
+            )
+        )
+        print('True-Value simulation result has been wrote in file.')
