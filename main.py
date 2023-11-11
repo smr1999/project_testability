@@ -1,8 +1,11 @@
-from project.controllers import Controller
-
+from project.controllers.main_controller import (
+    MainController,
+)
 
 
 if __name__ == '__main__':
-    controller = Controller('all_benchs/c432.bench', 'input_file.txt' , None)
-
-    controller.run()
+    MainController(
+        bench_file_name='bench_files/c17.bench',
+        input_file_name='input_files/c17.txt',
+        test_input_file_name=None
+    ).run()
