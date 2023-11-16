@@ -144,5 +144,9 @@ class Gate:
 
         self.__validate_after_operation()
 
+    def reset(self) -> None:
+        self.value = LogicValueEnum.UNKNOWN.value
+        self.has_set_value = False
+
     def __repr__(self) -> str:
         return f'<{self.__class__.__name__}_{self.id}:{self.value}, level:{self.level}, input_wires: ({[input_wire for input_wire in self.input_wires]}), output_wires:({[output_wire for output_wire in self.output_wires]})>'

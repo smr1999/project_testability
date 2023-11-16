@@ -259,6 +259,17 @@ class NetworkController(controller.Controller):
                     result_file_object.write(
                         gate.output_wires[0].input_gate.id + ' ' + gate.output_wires[0].value + '\n')
 
+    def reset(self) -> None:
+        total_gates: dict[int, list[Gate]] = self.total_gates_with_level
+        max_network_level = max(list(total_gates.keys()))
+
+        for gate_level in range(0, max_network_level+1):
+            for gate in total_gates[gate_level]:
+                gate.reset()
+
+        for wire in self.wires:
+            wire.reset()
+
     def run(self) -> None:
         self.__update_primay_gates()
         self.__update_fanout_gates()

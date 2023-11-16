@@ -172,7 +172,7 @@ class LogicOperation(Operation):
                 bit_2=bits[1]
             )
 
-        return cls.xor_operation(
+        return cls.BasicLogicOperaion.xor_operation(
             bit_1=bits[0],
             bit_2=cls.xor_operation(bits=bits[1:])
         )

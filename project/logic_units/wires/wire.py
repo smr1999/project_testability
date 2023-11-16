@@ -58,5 +58,9 @@ class Wire:
             self.output_gate
         )
 
+    def reset(self) -> None:
+        self.value = LogicValueEnum.UNKNOWN.value
+        self.has_set_value = False
+
     def __repr__(self) -> str:
         return f'<{self.input_gate.__class__.__name__}_{self.input_gate.id}__{self.__class__.__name__}__{self.output_gate.__class__.__name__}_{self.output_gate.id}:{self.value}>'

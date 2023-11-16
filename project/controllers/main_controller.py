@@ -10,12 +10,20 @@ from project.controllers.input_controller import (
     InputController,
 )
 
+from project.controllers.fault_simulation_controller import (
+    FaultSimulationController,
+)
+
+from project.enums.fault_simulation_type_enum import (
+    FaultSimulationTypeEnum,
+)
+
 
 class MainController:
     def __init__(self, bench_file_name: str, input_file_name: str, test_input_file_name: str, true_value_result_file_name: str) -> None:
         self.bench_file_name: str = bench_file_name
         self.input_file_name: str = input_file_name
-        self.test_vector_file_name: str = test_input_file_name
+        self.test_input_file_name: str = test_input_file_name
         self.true_value_result_file_name: str = true_value_result_file_name
 
     def __read_file(self, file_dir_: str) -> TextIOWrapper:
@@ -41,6 +49,16 @@ class MainController:
             input_file_object=self.__read_file(self.input_file_name)
         )
 
+        assert self.test_input_file_name
+        self.__test_input_controller = InputController(
+            input_file_object=self.__read_file(self.test_input_file_name)
+        )
+
+        self.__fault_simulation_controller = FaultSimulationController(
+            network_controller=self.__network_controller,
+            fault_simulation_type=FaultSimulationTypeEnum.Deductive
+        )
+
     def run(self):
         self.__initilize_controllers()
 
@@ -62,3 +80,18 @@ class MainController:
             )
         )
         print('True-Value simulation result has been wrote in file.')
+
+        self.__network_controller.reset()
+        print('Network values has been reset.')
+
+        self.__test_input_controller.run()
+        print('Test input file has been read.')
+
+        self.__network_controller.inject_and_execute(
+            inject_values=self.__test_input_controller.inputs
+        )
+        print('Test inputs injected to network and gated has been executed.')
+
+        self.__fault_simulation_controller.run()
+        for k, v in self.__fault_simulation_controller.all_fault_dict.items():
+            print(k , v)
