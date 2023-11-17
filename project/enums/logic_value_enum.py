@@ -5,7 +5,7 @@ class LogicValueEnum(Enum):
     ZERO = '0'
     ONE = '1'
     HIGH_IMPEDANCE = 'Z'
-    UNKNOWN = 'X'
+    UNKNOWN = 'U'
 
     @classmethod
     def list_values(cls):

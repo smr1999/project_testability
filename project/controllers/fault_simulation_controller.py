@@ -40,11 +40,7 @@ class FaultSimulationController(Controller):
         return self.__all_faults_dict
 
     def __fault_simulation_deductive(self) -> None:
-        max_gate_level: int = max(
-            list(self.network_controller.total_gates_with_level.keys())
-        )
-
-        for level in range(0, max_gate_level + 1):
+        for level in range(0, self.network_controller.max_network_level + 1):
             for gate in self.network_controller.total_gates_with_level[level]:
                 if isinstance(gate, InputGate):
                     FaultSimulationDeductiveOperation.input_operation(
@@ -111,6 +107,11 @@ class FaultSimulationController(Controller):
                         gate=gate,
                         all_fault_dict=self.all_fault_dict
                     )
+
+    def write_nets_faults(self, result_file_object: TextIOWrapper = None) -> None:
+        for wire, fault_set in self.all_fault_dict.items():
+            result_file_object.write(
+                f'Wire:{wire.id}, Discovered faults:{fault_set} \n')
 
     def run(self) -> None:
         assert self.fault_simulation_type != FaultSimulationTypeEnum.Unknown

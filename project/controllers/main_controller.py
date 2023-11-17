@@ -20,11 +20,12 @@ from project.enums.fault_simulation_type_enum import (
 
 
 class MainController:
-    def __init__(self, bench_file_name: str, input_file_name: str, test_input_file_name: str, true_value_result_file_name: str) -> None:
+    def __init__(self, bench_file_name: str, input_file_name: str, test_input_file_name: str, true_value_result_file_name: str, fault_simulation_result_file_name: str) -> None:
         self.bench_file_name: str = bench_file_name
         self.input_file_name: str = input_file_name
         self.test_input_file_name: str = test_input_file_name
         self.true_value_result_file_name: str = true_value_result_file_name
+        self.fault_simulation_result_file_name = fault_simulation_result_file_name
 
     def __read_file(self, file_dir_: str) -> TextIOWrapper:
         return open(
@@ -63,35 +64,45 @@ class MainController:
         self.__initilize_controllers()
 
         self.__network_controller.run()
-        print('Network of gates has been initilized.')
+        print(f'Network gates of {self.bench_file_name} has been initilized.')
 
         self.__input_controller.run()
-        print('Input file has been read.')
+        print(f'Input file {self.input_file_name} has been read.')
 
         self.__network_controller.inject_and_execute(
             inject_values=self.__input_controller.inputs
         )
-        print('Inputs injected to network and gated has been executed.')
+        print(
+            f'Input file {self.input_file_name} injected to network {self.bench_file_name} and gated has been executed.')
 
-        self.__network_controller.display_gates()
-        self.__network_controller.write_nets(
+        # self.__network_controller.display_gates()
+        self.__network_controller.write_nets_values(
             result_file_object=self.__write_file(
                 file_dir_=self.true_value_result_file_name
             )
         )
-        print('True-Value simulation result has been wrote in file.')
+        print(
+            f'True-Value simulation result has been wrote in file {self.true_value_result_file_name}.')
 
         self.__network_controller.reset()
-        print('Network values has been reset.')
+        print(f'Network values of {self.bench_file_name} has been reset.')
 
         self.__test_input_controller.run()
-        print('Test input file has been read.')
+        print(f'Test input file {self.test_input_file_name} has been read.')
 
         self.__network_controller.inject_and_execute(
             inject_values=self.__test_input_controller.inputs
         )
-        print('Test inputs injected to network and gated has been executed.')
+        print(
+            f'Test input file {self.test_input_file_name} injected to network {self.bench_file_name} and gated has been executed.')
 
         self.__fault_simulation_controller.run()
-        for wire, sa_faults in self.__fault_simulation_controller.all_fault_dict.items():
-            print(wire.id, ':', sa_faults)
+        print('Fault simulation has been executed.')
+
+        self.__fault_simulation_controller.write_nets_faults(
+            result_file_object=self.__write_file(
+                file_dir_=self.fault_simulation_result_file_name
+            )
+        )
+        print(
+            f'Fault simulation result has been wrote in file {self.fault_simulation_result_file_name}.')

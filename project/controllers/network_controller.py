@@ -28,6 +28,8 @@ class NetworkController(controller.Controller):
 
         self.__wires: list[Wire] = []
 
+        self.__max_network_level: int = -1
+
     @property
     def bench_file_object(self) -> TextIOWrapper:
         return self.__bench_file_object
@@ -85,6 +87,14 @@ class NetworkController(controller.Controller):
     @wires.setter
     def wires(self, wires_: list[Wire]):
         self.__wires = wires_
+
+    @property
+    def max_network_level(self) -> int:
+        if self.__max_network_level < 0:
+            total_gates: dict[int, list[Gate]] = self.total_gates_with_level
+            self.__max_network_level = max(list(total_gates.keys()))
+
+        return self.__max_network_level
 
     def __update_primay_gates(self) -> None:
         line: str = self.bench_file_object.readline()
@@ -145,7 +155,7 @@ class NetworkController(controller.Controller):
             line = self.bench_file_object.readline()
 
     def __add_connection_to_output_gates(self) -> None:
-        temp_gates: dict = self.input_gates | self.intermidate_gates
+        temp_gates: dict[str, Gate] = self.input_gates | self.intermidate_gates
 
         for id, output_gate in self.output_gates.items():
             wire: Wire = Wire(
@@ -161,7 +171,9 @@ class NetworkController(controller.Controller):
     def __update_fanout_gates(self) -> None:
         for id, gate in (self.input_gates | self.intermidate_gates).items():
             if len(gate.output_wires) > 1:
-                fanout_gate: FanoutGate = FanoutGate(id=id)
+                fanout_gate: FanoutGate = FanoutGate(
+                    id=id
+                )
                 self.fanout_gates[id] = fanout_gate
 
                 for output_wire in gate.output_wires:
@@ -233,9 +245,8 @@ class NetworkController(controller.Controller):
 
     def inject_and_execute(self, inject_values: dict[str, str]) -> None:
         total_gates: dict[int, list[Gate]] = self.total_gates_with_level
-        max_network_level = max(list(total_gates.keys()))
 
-        for level in range(0, max_network_level + 1):
+        for level in range(0, self.max_network_level + 1):
             gates_in_level: list[Gate] = total_gates[level]
             if level == 0:
                 assert len(inject_values) == len(gates_in_level)
@@ -246,15 +257,14 @@ class NetworkController(controller.Controller):
                 for gate in gates_in_level:
                     gate.set_value_and_propagate()
 
-    def write_nets(self, result_file_object: TextIOWrapper = None) -> None:
+    def write_nets_values(self, result_file_object: TextIOWrapper = None) -> None:
         total_gates: dict[int, list[Gate]] = self.total_gates_with_level
-        max_network_level: int = max(list(total_gates.keys()))
 
-        for gate_level in range(0, max_network_level+1):
+        for gate_level in range(0, self.max_network_level+1):
             for gate in total_gates[gate_level]:
                 for output_wire in gate.output_wires:
                     result_file_object.write(
-                        output_wire.id + ' ' + output_wire.value + '\n')
+                        f'Wire:{output_wire.id}, Value:{output_wire.value} \n')
 
     def reset(self) -> None:
         total_gates: dict[int, list[Gate]] = self.total_gates_with_level
