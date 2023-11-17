@@ -175,7 +175,7 @@ class FaultSimulationDeductiveOperation(Operation):
         all_fault_dict[gate.output_wires[0]] = set()
 
         all_fault_dict[gate.output_wires[0]].add(
-            f'{gate.output_wires[0]}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
+            f'{gate.output_wires[0].id}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
         )
 
     @classmethod
@@ -195,12 +195,12 @@ class FaultSimulationDeductiveOperation(Operation):
 
         all_fault_dict[gate.output_wires[0]] = set()
 
-        all_fault_dict[gate.output_wires[0]].add(
-            f'{gate.output_wires[0]}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
-        )
-
         all_fault_dict[gate.output_wires[0]] = all_fault_dict[gate.output_wires[0]].union(
             all_fault_dict[gate.input_wires[0]]
+        )
+
+        all_fault_dict[gate.output_wires[0]].add(
+            f'{gate.output_wires[0].id}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
         )
 
     @classmethod
@@ -212,12 +212,12 @@ class FaultSimulationDeductiveOperation(Operation):
 
         all_fault_dict[gate.output_wires[0]] = set()
 
-        all_fault_dict[gate.output_wires[0]].add(
-            f'{gate.output_wires[0]}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
-        )
-
         all_fault_dict[gate.output_wires[0]] = all_fault_dict[gate.output_wires[0]].union(
             all_fault_dict[gate.input_wires[0]]
+        )
+
+        all_fault_dict[gate.output_wires[0]].add(
+            f'{gate.output_wires[0].id}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
         )
 
     @classmethod
@@ -259,7 +259,7 @@ class FaultSimulationDeductiveOperation(Operation):
                            ] = all_fault_dict[gate.output_wires[0]] - temp
 
         all_fault_dict[gate.output_wires[0]].add(
-            f'{gate.output_wires[0]}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
+            f'{gate.output_wires[0].id}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
         )
 
     @classmethod
@@ -301,7 +301,7 @@ class FaultSimulationDeductiveOperation(Operation):
                            ] = all_fault_dict[gate.output_wires[0]] - temp
 
         all_fault_dict[gate.output_wires[0]].add(
-            f'{gate.output_wires[0]}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
+            f'{gate.output_wires[0].id}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
         )
 
     @classmethod
@@ -343,7 +343,7 @@ class FaultSimulationDeductiveOperation(Operation):
                            ] = all_fault_dict[gate.output_wires[0]] - temp
 
         all_fault_dict[gate.output_wires[0]].add(
-            f'{gate.output_wires[0]}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
+            f'{gate.output_wires[0].id}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
         )
 
     @classmethod
@@ -385,7 +385,7 @@ class FaultSimulationDeductiveOperation(Operation):
                            ] = all_fault_dict[gate.output_wires[0]] - temp
 
         all_fault_dict[gate.output_wires[0]].add(
-            f'{gate.output_wires[0]}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
+            f'{gate.output_wires[0].id}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
         )
 
     @classmethod
@@ -402,8 +402,6 @@ class FaultSimulationDeductiveOperation(Operation):
 
             if binary_index.count('1') % 2 == 1:
                 binary_index = binary_index.zfill(len(gate.input_wires))
-                print(binary_index)
-
                 include_wires: set[Wire] = set()
                 exclude_wires: set[Wire] = set()
 
@@ -428,7 +426,7 @@ class FaultSimulationDeductiveOperation(Operation):
                 )
 
         all_fault_dict[gate.output_wires[0]].add(
-            f'{gate.output_wires[0]}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
+            f'{gate.output_wires[0].id}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
         )
 
     @classmethod
@@ -445,8 +443,6 @@ class FaultSimulationDeductiveOperation(Operation):
 
             if binary_index.count('1') % 2 == 1:
                 binary_index = binary_index.zfill(len(gate.input_wires))
-                print(binary_index)
-
                 include_wires: set[Wire] = set()
                 exclude_wires: set[Wire] = set()
 
@@ -471,7 +467,7 @@ class FaultSimulationDeductiveOperation(Operation):
                 )
 
         all_fault_dict[gate.output_wires[0]].add(
-            f'{gate.output_wires[0]}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
+            f'{gate.output_wires[0].id}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
         )
 
     @classmethod
@@ -489,5 +485,5 @@ class FaultSimulationDeductiveOperation(Operation):
             )
 
             all_fault_dict[output_wire].add(
-                f'{output_wire}_s-a-{LogicValueBinaryEnum.ONE.value if output_wire.value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
+                f'{output_wire.id}_s-a-{LogicValueBinaryEnum.ONE.value if output_wire.value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
             )

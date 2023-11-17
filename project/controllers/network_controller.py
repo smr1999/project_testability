@@ -215,18 +215,21 @@ class NetworkController(controller.Controller):
 
                 start_point = 0
 
+    def __update_wire_ids(self) -> None:
+        for _, gates in self.total_gates_with_level.items():
+            for gate in gates:
+                if len(gate.output_wires) == 1:
+                    gate.output_wires[0].id = gate.id
+                elif len(gate.output_wires) >= 2:
+                    counter: int = 1
+                    for output_wire in gate.output_wires:
+                        output_wire.id = f'{gate.id}_{counter}'
+                        counter += 1
+
     def display_gates(self) -> None:
-        for _, gate in self.input_gates.items():
-            print(gate)
-
-        for _, gate in self.intermidate_gates.items():
-            print(gate)
-
-        for _, gate in self.fanout_gates.items():
-            print(gate)
-
-        for _, gate in self.output_gates.items():
-            print(gate)
+        for level, gates in self.total_gates_with_level.items():
+            for gate in gates:
+                print(f'Level: {level}, {gate}')
 
     def inject_and_execute(self, inject_values: dict[str, str]) -> None:
         total_gates: dict[int, list[Gate]] = self.total_gates_with_level
@@ -245,19 +248,13 @@ class NetworkController(controller.Controller):
 
     def write_nets(self, result_file_object: TextIOWrapper = None) -> None:
         total_gates: dict[int, list[Gate]] = self.total_gates_with_level
-        max_network_level = max(list(total_gates.keys()))
+        max_network_level: int = max(list(total_gates.keys()))
 
         for gate_level in range(0, max_network_level+1):
             for gate in total_gates[gate_level]:
-                if len(gate.output_wires) > 1:
-                    index: int = 1
-                    for output_wire in gate.output_wires:
-                        result_file_object.write(output_wire.input_gate.id +
-                                                 f'_{index}' + ' ' + output_wire.value + '\n')
-                        index += 1
-                elif len(gate.output_wires) == 1:
+                for output_wire in gate.output_wires:
                     result_file_object.write(
-                        gate.output_wires[0].input_gate.id + ' ' + gate.output_wires[0].value + '\n')
+                        output_wire.id + ' ' + output_wire.value + '\n')
 
     def reset(self) -> None:
         total_gates: dict[int, list[Gate]] = self.total_gates_with_level
@@ -275,3 +272,4 @@ class NetworkController(controller.Controller):
         self.__update_fanout_gates()
         self.__add_connection_to_output_gates()
         self.__update_gates_level()
+        self.__update_wire_ids()

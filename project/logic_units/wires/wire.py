@@ -5,12 +5,22 @@ from project.enums.logic_value_enum import (
 
 class Wire:
     def __init__(self, input_gate, output_gate) -> None:
+        self.__id: str = None
+
         self.__value: str = LogicValueEnum.UNKNOWN.value
         self.__has_set_value: bool = False
 
         assert input_gate and output_gate
         self.__input_gate = input_gate
         self.__output_gate = output_gate
+
+    @property
+    def id(self) -> str:
+        return self.__id
+
+    @id.setter
+    def id(self, id_: str):
+        self.__id = id_
 
     @property
     def value(self) -> str:
@@ -63,4 +73,4 @@ class Wire:
         self.has_set_value = False
 
     def __repr__(self) -> str:
-        return f'<{self.input_gate.__class__.__name__}_{self.input_gate.id}__{self.__class__.__name__}__{self.output_gate.__class__.__name__}_{self.output_gate.id}:{self.value}>'
+        return f'<{self.input_gate.__class__.__name__}_{self.input_gate.id}__{self.__class__.__name__}_{self.id}__{self.output_gate.__class__.__name__}_{self.output_gate.id}:{self.value}>'

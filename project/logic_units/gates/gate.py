@@ -99,6 +99,9 @@ class Gate:
         ]
 
     def _specific_validation(self) -> None:
+        """
+        This validation is different for each gate
+        """
         pass
 
     def __validate_before_operation(self) -> None:
@@ -149,4 +152,4 @@ class Gate:
         self.has_set_value = False
 
     def __repr__(self) -> str:
-        return f'<{self.__class__.__name__}_{self.id}:{self.value}, level:{self.level}, input_wires: ({[input_wire for input_wire in self.input_wires]}), output_wires:({[output_wire for output_wire in self.output_wires]})>'
+        return f'<{self.__class__.__name__}_{self.id}:{self.value}, level:{self.level}, input_wires: {[input_wire.id for input_wire in self.input_wires]}, output_wires:{[output_wire.id for output_wire in self.output_wires]}>'

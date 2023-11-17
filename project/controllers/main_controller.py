@@ -73,7 +73,7 @@ class MainController:
         )
         print('Inputs injected to network and gated has been executed.')
 
-        # self.__network_controller.display_gates()
+        self.__network_controller.display_gates()
         self.__network_controller.write_nets(
             result_file_object=self.__write_file(
                 file_dir_=self.true_value_result_file_name
@@ -93,5 +93,5 @@ class MainController:
         print('Test inputs injected to network and gated has been executed.')
 
         self.__fault_simulation_controller.run()
-        for k, v in self.__fault_simulation_controller.all_fault_dict.items():
-            print(k , v)
+        for wire, sa_faults in self.__fault_simulation_controller.all_fault_dict.items():
+            print(wire.id, ':', sa_faults)
