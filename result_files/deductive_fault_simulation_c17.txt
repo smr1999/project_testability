@@ -1,17 +1,17 @@
-Wire:1, Discovered faults:{'1_s-a-0'} 
-Wire:2, Discovered faults:{'2_s-a-1'} 
-Wire:3, Discovered faults:{'3_s-a-1'} 
-Wire:6, Discovered faults:{'6_s-a-0'} 
-Wire:7, Discovered faults:{'7_s-a-1'} 
-Wire:3_1, Discovered faults:{'3_1_s-a-1', '3_s-a-1'} 
-Wire:3_2, Discovered faults:{'3_2_s-a-1', '3_s-a-1'} 
-Wire:10, Discovered faults:{'3_1_s-a-1', '10_s-a-0', '3_s-a-1'} 
-Wire:11, Discovered faults:{'11_s-a-0', '3_2_s-a-1', '3_s-a-1'} 
-Wire:11_1, Discovered faults:{'11_s-a-0', '3_2_s-a-1', '11_1_s-a-0', '3_s-a-1'} 
-Wire:11_2, Discovered faults:{'11_s-a-0', '11_2_s-a-0', '3_2_s-a-1', '3_s-a-1'} 
-Wire:16, Discovered faults:{'2_s-a-1', '16_s-a-0'} 
-Wire:19, Discovered faults:{'7_s-a-1', '19_s-a-0'} 
-Wire:16_1, Discovered faults:{'2_s-a-1', '16_s-a-0', '16_1_s-a-0'} 
-Wire:16_2, Discovered faults:{'2_s-a-1', '16_2_s-a-0', '16_s-a-0'} 
-Wire:22, Discovered faults:{'3_1_s-a-1', '16_1_s-a-0', '16_s-a-0', '10_s-a-0', '22_s-a-1', '3_s-a-1', '2_s-a-1'} 
-Wire:23, Discovered faults:{'16_2_s-a-0', '16_s-a-0', '7_s-a-1', '23_s-a-1', '2_s-a-1', '19_s-a-0'} 
+Wire:1, Value:1, Discovered faults:{'1_s-a-0'} 
+Wire:2, Value:0, Discovered faults:{'2_s-a-1'} 
+Wire:3, Value:0, Discovered faults:{'3_s-a-1'} 
+Wire:6, Value:1, Discovered faults:{'6_s-a-0'} 
+Wire:7, Value:0, Discovered faults:{'7_s-a-1'} 
+Wire:3_1, Value:0, Discovered faults:{'3_s-a-1', '3_1_s-a-1'} 
+Wire:3_2, Value:0, Discovered faults:{'3_2_s-a-1', '3_s-a-1'} 
+Wire:10, Value:1, Discovered faults:{'3_s-a-1', '3_1_s-a-1', '10_s-a-0'} 
+Wire:11, Value:1, Discovered faults:{'3_2_s-a-1', '3_s-a-1', '11_s-a-0'} 
+Wire:11_1, Value:1, Discovered faults:{'11_1_s-a-0', '3_2_s-a-1', '3_s-a-1', '11_s-a-0'} 
+Wire:11_2, Value:1, Discovered faults:{'11_2_s-a-0', '3_2_s-a-1', '3_s-a-1', '11_s-a-0'} 
+Wire:16, Value:1, Discovered faults:{'16_s-a-0', '2_s-a-1'} 
+Wire:19, Value:1, Discovered faults:{'19_s-a-0', '7_s-a-1'} 
+Wire:16_1, Value:1, Discovered faults:{'16_1_s-a-0', '16_s-a-0', '2_s-a-1'} 
+Wire:16_2, Value:1, Discovered faults:{'16_s-a-0', '16_2_s-a-0', '2_s-a-1'} 
+Wire:22, Value:0, Discovered faults:{'16_s-a-0', '22_s-a-1', '3_1_s-a-1', '16_1_s-a-0', '2_s-a-1', '3_s-a-1', '10_s-a-0'} 
+Wire:23, Value:0, Discovered faults:{'19_s-a-0', '16_s-a-0', '16_2_s-a-0', '7_s-a-1', '2_s-a-1', '23_s-a-1'} 

@@ -76,7 +76,7 @@ class MainController:
             f'Input file {self.input_file_name} injected to network {self.bench_file_name} and gated has been executed.')
 
         # self.__network_controller.display_gates()
-        self.__network_controller.write_nets_values(
+        self.__network_controller.write_nets_and_output_values(
             result_file_object=self.__write_file(
                 file_dir_=self.true_value_result_file_name
             )

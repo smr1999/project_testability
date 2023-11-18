@@ -257,7 +257,7 @@ class NetworkController(controller.Controller):
                 for gate in gates_in_level:
                     gate.set_value_and_propagate()
 
-    def write_nets_values(self, result_file_object: TextIOWrapper = None) -> None:
+    def write_nets_and_output_values(self, result_file_object: TextIOWrapper = None) -> None:
         total_gates: dict[int, list[Gate]] = self.total_gates_with_level
 
         for gate_level in range(0, self.max_network_level+1):
@@ -265,6 +265,12 @@ class NetworkController(controller.Controller):
                 for output_wire in gate.output_wires:
                     result_file_object.write(
                         f'Wire:{output_wire.id}, Value:{output_wire.value} \n')
+
+        result_file_object.write("------------------\n")
+
+        for _, output_gate in self.output_gates.items():
+            result_file_object.write(
+                f'Output Gate:{output_gate.id}, Value:{output_gate.value} \n')
 
     def reset(self) -> None:
         total_gates: dict[int, list[Gate]] = self.total_gates_with_level

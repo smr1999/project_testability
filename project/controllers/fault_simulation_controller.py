@@ -111,7 +111,7 @@ class FaultSimulationController(Controller):
     def write_nets_faults(self, result_file_object: TextIOWrapper = None) -> None:
         for wire, fault_set in self.all_fault_dict.items():
             result_file_object.write(
-                f'Wire:{wire.id}, Discovered faults:{fault_set} \n')
+                f'Wire:{wire.id}, Value:{wire.value}, Discovered faults:{fault_set} \n')
 
     def run(self) -> None:
         assert self.fault_simulation_type != FaultSimulationTypeEnum.Unknown

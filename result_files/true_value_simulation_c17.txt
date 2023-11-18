@@ -15,3 +15,6 @@ Wire:16_1, Value:U
 Wire:16_2, Value:U 
 Wire:22, Value:U 
 Wire:23, Value:U 
+------------------
+Output Gate:22, Value:U 
+Output Gate:23, Value:U 
