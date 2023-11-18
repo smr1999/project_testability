@@ -99,7 +99,7 @@ class MainController:
         self.__fault_simulation_controller.run()
         print('Fault simulation has been executed.')
 
-        self.__fault_simulation_controller.write_nets_faults(
+        self.__fault_simulation_controller.write_nets_and_outputs_faults(
             result_file_object=self.__write_file(
                 file_dir_=self.fault_simulation_result_file_name
             )

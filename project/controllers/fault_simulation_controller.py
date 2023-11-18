@@ -108,10 +108,18 @@ class FaultSimulationController(Controller):
                         all_fault_dict=self.all_fault_dict
                     )
 
-    def write_nets_faults(self, result_file_object: TextIOWrapper = None) -> None:
+    def write_nets_and_outputs_faults(self, result_file_object: TextIOWrapper = None) -> None:
         for wire, fault_set in self.all_fault_dict.items():
             result_file_object.write(
-                f'Wire:{wire.id}, Value:{wire.value}, Discovered faults:{fault_set} \n')
+                f'Wire:{wire.id}, Value:{wire.value}, Discovered faults:{fault_set} \n'
+            )
+
+        result_file_object.write("------------------\n")
+
+        for output_gate in list(self.network_controller.output_gates.values()):
+            result_file_object.write(
+                f'OutputGate: {output_gate.id}, Value:{output_gate.value}, Wire:{output_gate.input_wires[0].id}, Discoverd faults:{self.all_fault_dict[output_gate.input_wires[0]]} \n'
+            )
 
     def run(self) -> None:
         assert self.fault_simulation_type != FaultSimulationTypeEnum.Unknown
