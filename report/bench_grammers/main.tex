@@ -1,0 +1,24 @@
+\section{گرامر های فایل 
+\lr{bench}
+}
+
+پیش از آنکه به بررسی خواندن ورودی ها و تزریق آن ها به شبکه کنیم، نیاز است به بررسی گرامر های فایل های 
+\lr{bench}
+بپردازیم. برای نمونه فایل 
+\lr{c17.bench}
+به شکل زیر است:
+
+\small{\lr{\lstinputlisting[numbers=left, breaklines=true]{../bench_files/c17.bench}}}
+
+در این پروژه، برای این که چنین فایلی را پردازش 
+\LTRfootnote{parse}
+کنیم، از کتابخانه 
+\lr{\textbf{pyparsing}}
+استفاده می کنیم. گرامرهای فایل های 
+\lr{bench}
+را می توان به شکل زیر تعریف کرد: 
+\small {\lr{\lstinputlisting[numbers=left, language=Python, breaklines=true, firstline=3]{../project/grammers/bench_grammer.py}}}
+
+در واقع به ازای هر گرامر موجود، در خروجی یک لیست از اعداد برای ما تولید می کند و آن را توسط تابع دیگری که مسئولیت ساخت شبکه را دارد، تزریق می کنیم.
+
+
