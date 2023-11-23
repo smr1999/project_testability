@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.9.20)  19 NOV 2023 21:13
+This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.9.20)  23 NOV 2023 17:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1397,8 +1397,14 @@ script=latn;language=dflt;mapping=tex-text;!
 File: c17_results/pictures/c17.eps Graphic file (type eps)
 <c17_results/pictures/c17.eps>
  [32] [33] [34] [35]) [36] (./report.aux)
-Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: 45A3BA0CAF3049B43A8F8FC1702F8A3B;2546.
+
+Package rerunfilecheck Warning: File `report.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `report.out':
+(rerunfilecheck)             Before: 3D45E178D8E87C971CD9832AC5D0DE96;2559
+(rerunfilecheck)             After:  45A3BA0CAF3049B43A8F8FC1702F8A3B;2546.
  ) 
 Here is how much of TeX's memory you used:
  22061 strings out of 476179
