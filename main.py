@@ -15,6 +15,7 @@ if __name__ == '__main__':
             test_input_file_name=f'test_input_files/{test_name}.txt',
             true_value_result_file_name=f'result_files/true_value_simulation_{test_name}.txt',
             fault_simulation_result_file_name=f'result_files/deductive_fault_simulation_{test_name}.txt'
-        ).run()
+        )
+        main_controller.run()
 
         del main_controller

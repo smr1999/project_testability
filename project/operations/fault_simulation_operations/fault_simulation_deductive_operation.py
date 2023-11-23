@@ -397,8 +397,8 @@ class FaultSimulationDeductiveOperation(Operation):
 
         all_fault_dict[gate.output_wires[0]] = set()
 
-        for index in range(2**(len(gate.input_wires) - 1)):
-            binary_index: str = bin(index+1)[2:]
+        for index in range(1, 2**len(gate.input_wires)):
+            binary_index: str = bin(index)[2:]
 
             if binary_index.count('1') % 2 == 1:
                 binary_index = binary_index.zfill(len(gate.input_wires))
@@ -438,8 +438,8 @@ class FaultSimulationDeductiveOperation(Operation):
 
         all_fault_dict[gate.output_wires[0]] = set()
 
-        for index in range(2**(len(gate.input_wires) - 1)):
-            binary_index: str = bin(index+1)[2:]
+        for index in range(1, 2**len(gate.input_wires)):
+            binary_index: str = bin(index)[2:]
 
             if binary_index.count('1') % 2 == 1:
                 binary_index = binary_index.zfill(len(gate.input_wires))
