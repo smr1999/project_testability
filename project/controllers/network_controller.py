@@ -257,6 +257,22 @@ class NetworkController(controller.Controller):
                 for gate in gates_in_level:
                     gate.set_value_and_propagate()
 
+    def inject_and_execute(self, inject_values: list[str]) -> None:
+        total_gates: dict[int, list[Gate]] = self.total_gates_with_level
+
+        for level in range(0, self.max_network_level + 1):
+            gates_in_level: list[Gate] = total_gates[level]
+            if level == 0:
+                assert len(inject_values) == len(gates_in_level)
+
+                counter: int = 0
+                for _, gate in self.input_gates.items():
+                    gate.set_value_and_propagate(inject_values[counter])
+                    counter += 1
+            else:
+                for gate in gates_in_level:
+                    gate.set_value_and_propagate()
+
     def write_nets_and_output_values(self, result_file_object: TextIOWrapper = None) -> None:
         total_gates: dict[int, list[Gate]] = self.total_gates_with_level
 

@@ -128,3 +128,16 @@ class FaultSimulationController(Controller):
             return self.__fault_simulation_deductive()
 
         assert False
+
+    def reset(self) -> None:
+        self.all_fault_dict.clear()
+
+    def detectable_faults(self) -> set[str]:
+        all_detectable_faults: set[str] = set()
+
+        for _, output_gate in self.__network_controller.output_gates.items():
+            all_detectable_faults = all_detectable_faults.union(
+                self.__all_faults_dict[output_gate.input_wires[0]]
+            )
+
+        return all_detectable_faults
