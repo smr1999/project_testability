@@ -30,7 +30,8 @@ class FaultDictionaryGeneratorController(Controller):
         )
         total_fault_names: list[str] = list(self.__total_fault_names())
 
-        fault_dictionary_writer.writerow(['test vector'] + total_fault_names)
+        fault_dictionary_writer.writerow(['test vector'] + total_fault_names + (
+            ['Essential / Not Essential'] if show_essential_test_vectors else ['']))
 
         for test_vector, detected_faults in self.__detected_fault_dict.items():
             temp: list[str] = [test_vector]

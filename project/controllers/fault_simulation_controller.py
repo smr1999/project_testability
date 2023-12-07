@@ -2,12 +2,12 @@ from io import (
     TextIOWrapper,
 )
 
-from project.controllers.controller import (
-    Controller,
-)
-
 from project.controllers.network_controller import (
     NetworkController
+)
+
+from project.controllers.controller import (
+    Controller,
 )
 
 from project.logic_units import *
@@ -127,11 +127,14 @@ class FaultSimulationController(Controller):
         if self.fault_simulation_type == FaultSimulationTypeEnum.Deductive:
             return self.__fault_simulation_deductive()
 
+        # other fault simulation comes here
+
         assert False
 
     def reset(self) -> None:
         self.all_fault_dict.clear()
 
+    @property
     def detectable_faults(self) -> set[str]:
         all_detectable_faults: set[str] = set()
 

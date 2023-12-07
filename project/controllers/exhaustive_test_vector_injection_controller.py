@@ -51,25 +51,28 @@ class ExhaustiveTestVectorInjectionController(Controller):
                 )
 
             self.__detected_fault_dict[test_vector_bin] = set(
-                temp_detected_faults)
+                temp_detected_faults
+            )
 
     @property
     def essential_test_vectors(self) -> list[str]:
-        temp: dict[str: list[str]] = dict()
+        detected_fault_test_vectors: dict[str: list[str]] = dict()
         for test_vector_bin, detected_faults in self.__detected_fault_dict.items():
             for detected_fault in detected_faults:
-                if detected_fault not in temp:
-                    temp[detected_fault] = [test_vector_bin]
+                if detected_fault not in detected_fault_test_vectors:
+                    detected_fault_test_vectors[detected_fault] = [
+                        test_vector_bin]
                 else:
-                    temp[detected_fault].append(test_vector_bin)
+                    detected_fault_test_vectors[detected_fault].append(
+                        test_vector_bin)
 
-        result: list[str] = list()
+        essential_test_vectors_: list[str] = list()
 
-        for _, test_vectors in temp.items():
+        for _, test_vectors in detected_fault_test_vectors.items():
             if len(test_vectors) == 1:
-                result.append(test_vectors[0])
+                essential_test_vectors_.append(test_vectors[0])
 
-        return result
+        return essential_test_vectors_
 
     def run(self) -> None:
         for test_vector in range(2**len(self.__network_controller.input_gates)):
@@ -83,8 +86,7 @@ class ExhaustiveTestVectorInjectionController(Controller):
                 inject_values=test_vector_list
             )
             self.__fault_simulation_controller.run()
-            self.__detected_fault_dict[test_vector_bin] = self.__fault_simulation_controller.detectable_faults(
-            )
+            self.__detected_fault_dict[test_vector_bin] = self.__fault_simulation_controller.detectable_faults
 
             self.__fault_simulation_controller.reset()
             self.__network_controller.reset()

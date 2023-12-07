@@ -1,0 +1,18 @@
+# sample1
+# 5 inputs
+# 1 outputs
+# 0 inverter
+# 4 gates ( 1 ANDs + 1 XORs + 1 ORs + 1 XNORs )
+
+INPUT(1)
+INPUT(2)
+INPUT(3)
+INPUT(4)
+INPUT(5)
+
+OUTPUT(9)
+
+6 = AND(1, 2)
+7 = XOR(2, 3, 4)
+8 = OR(6, 5)
+9 = XNOR(7, 8)

@@ -26,6 +26,10 @@ from project.controllers.controller import (
     Controller,
 )
 
+from project.utilities.file_utility import (
+    FileUtility,
+)
+
 from project.enums.fault_simulation_type_enum import (
     FaultSimulationTypeEnum,
 )
@@ -36,22 +40,12 @@ class MainController(Controller):
         self.bench_file_name: str = bench_file_name
         self.fault_dictionary_file_name: str = fault_dictionary_file_name
 
-    def __read_file(self, file_dir_: str) -> TextIOWrapper:
-        return open(
-            file=file_dir_,
-            mode='r'
-        )
-
-    def __write_file(self, file_dir_: str) -> TextIOWrapper:
-        return open(
-            file=file_dir_,
-            mode='w'
-        )
-
     def __initilize_controllers(self) -> None:
         assert self.bench_file_name
         self.__network_controller = NetworkController(
-            bench_file_object=self.__read_file(self.bench_file_name)
+            bench_file_object=FileUtility.read_file(
+                file_dir=self.bench_file_name
+            )
         )
 
         self.__fault_simulation_controller = FaultSimulationController(
@@ -82,8 +76,8 @@ class MainController(Controller):
             detected_fault_dict=self.__exhaustive_test_vector_injection_controller.detected_fault_dict,
             essential_test_vectors=self.__exhaustive_test_vector_injection_controller.essential_test_vectors
         ).generate_fault_dictionary_file(
-            fault_dictionary_file_object=self.__write_file(
-                file_dir_=f'{self.fault_dictionary_file_name}_without_fault_collapsing.csv'
+            fault_dictionary_file_object=FileUtility.write_file(
+                file_dir=f'{self.fault_dictionary_file_name}_without_fault_collapsing.csv'
             )
         )
         print(
@@ -98,8 +92,8 @@ class MainController(Controller):
             detected_fault_dict=self.__exhaustive_test_vector_injection_controller.detected_fault_dict,
             essential_test_vectors=self.__exhaustive_test_vector_injection_controller.essential_test_vectors
         ).generate_fault_dictionary_file(
-            fault_dictionary_file_object=self.__write_file(
-                file_dir_=f'{self.fault_dictionary_file_name}_with_fault_collapsing.csv'
+            fault_dictionary_file_object=FileUtility.write_file(
+                file_dir=f'{self.fault_dictionary_file_name}_with_fault_collapsing.csv'
             ),
             show_essential_test_vectors=True
         )

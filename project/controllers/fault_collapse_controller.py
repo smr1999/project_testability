@@ -69,4 +69,5 @@ class FaultCollapseController(Controller):
                         )
                     )
                 else:
+                    # Fanout/Xor/Xnor gates don't have equivalent faults
                     pass

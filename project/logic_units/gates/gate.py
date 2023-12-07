@@ -99,9 +99,7 @@ class Gate:
         ]
 
     def _specific_validation(self) -> None:
-        """
-        This validation is different for each gate
-        """
+        # This validation is different for each gate
         pass
 
     def __validate_before_operation(self) -> None:

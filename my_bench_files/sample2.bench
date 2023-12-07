@@ -1,0 +1,27 @@
+# sample2
+# 8 inputs
+# 2 outputs
+# 1 inverter
+# 8 gates ( 3 ANDs + 2 XORs + 1 NANDs + 1 NORs + 1 XNORs )
+
+INPUT(1)
+INPUT(2)
+INPUT(3)
+INPUT(4)
+INPUT(5)
+INPUT(6)
+INPUT(7)
+INPUT(8)
+
+OUTPUT(16)
+OUTPUT(17)
+
+9 = AND(1, 2, 3)
+10 = XOR(2, 3, 4)
+11 = NAND(4, 5)
+12 = NOR(6, 7)
+13 = AND(9, 10)
+14 = XOR(8, 10, 11, 12)
+15 = NOT(14)
+16 = XNOR(8, 13, 15)
+17 = AND(13, 14)
