@@ -10,7 +10,7 @@ from project.controllers.controller import (
 
 
 class FaultDictionaryGeneratorController(Controller):
-    def __init__(self, detected_fault_dict: dict[str: set[str]], essential_test_vectors: list[str]) -> None:
+    def __init__(self, detected_fault_dict: dict[str: set[str]], essential_test_vectors: list[str] = None) -> None:
         self.__detected_fault_dict: dict[str: set[str]] = detected_fault_dict
         self.__essential_test_vectors: list[str] = essential_test_vectors
 
@@ -30,8 +30,12 @@ class FaultDictionaryGeneratorController(Controller):
         )
         total_fault_names: list[str] = list(self.__total_fault_names())
 
-        fault_dictionary_writer.writerow(['test vector'] + total_fault_names + (
-            ['Essential / Not Essential'] if show_essential_test_vectors else ['']))
+        if show_essential_test_vectors:
+            fault_dictionary_writer.writerow(
+                ['test vector'] + total_fault_names + ['Essential / Not Essential'])
+        else:
+            fault_dictionary_writer.writerow(
+                ['test vector'] + total_fault_names)
 
         for test_vector, detected_faults in self.__detected_fault_dict.items():
             temp: list[str] = [test_vector]

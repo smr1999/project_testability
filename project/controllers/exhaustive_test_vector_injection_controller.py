@@ -10,6 +10,8 @@ from project.controllers.controller import (
     Controller,
 )
 
+from project.logic_units.gates import *
+
 
 class ExhaustiveTestVectorInjectionController(Controller):
     def __init__(self, network_controller: NetworkController, fault_simulation_controller: FaultSimulationController) -> None:
@@ -33,9 +35,10 @@ class ExhaustiveTestVectorInjectionController(Controller):
 
     def __get_eqivalent_fault(self, fault_name: str) -> str:
         if fault_name in self.__equivalent_fault_dict:
-            return self.__get_eqivalent_fault(
-                fault_name=self.__equivalent_fault_dict[fault_name]
-            )
+            # return self.__get_eqivalent_fault(
+            #     fault_name=self.__equivalent_fault_dict[fault_name]
+            # )
+            return self.__equivalent_fault_dict[fault_name]
 
         return fault_name
 
@@ -45,10 +48,21 @@ class ExhaustiveTestVectorInjectionController(Controller):
         for test_vector_bin, detected_faults in self.__detected_fault_dict.items():
             temp_detected_faults: list[str] = list(detected_faults)
 
-            for index in range(len(temp_detected_faults)):
-                temp_detected_faults[index] = self.__get_eqivalent_fault(
-                    fault_name=temp_detected_faults[index]
-                )
+            for gate_level in range(self.__network_controller.max_network_level):
+                for _, gates in self.__network_controller.total_gates_with_level.items():
+                    for gate in gates:
+                        if not isinstance(gate, FanoutGate):
+                            for input_wire in gate.input_wires:
+                                s_a_0_fault: str = f'{input_wire.id}_s-a-0'
+                                s_a_1_fault: str = f'{input_wire.id}_s-a-1'
+
+                                if s_a_0_fault in temp_detected_faults:
+                                    temp_detected_faults[temp_detected_faults.index(
+                                        s_a_0_fault)] = self.__get_eqivalent_fault(fault_name=s_a_0_fault)
+
+                                if s_a_1_fault in temp_detected_faults:
+                                    temp_detected_faults[temp_detected_faults.index(
+                                        s_a_1_fault)] = self.__get_eqivalent_fault(fault_name=s_a_1_fault)
 
             self.__detected_fault_dict[test_vector_bin] = set(
                 temp_detected_faults

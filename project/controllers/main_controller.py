@@ -73,8 +73,7 @@ class MainController(Controller):
             f'Exhaustive test vector injection on {self.bench_file_name} completed and faults found.')
 
         FaultDictionaryGeneratorController(
-            detected_fault_dict=self.__exhaustive_test_vector_injection_controller.detected_fault_dict,
-            essential_test_vectors=self.__exhaustive_test_vector_injection_controller.essential_test_vectors
+            detected_fault_dict=self.__exhaustive_test_vector_injection_controller.detected_fault_dict
         ).generate_fault_dictionary_file(
             fault_dictionary_file_object=FileUtility.write_file(
                 file_dir=f'{self.fault_dictionary_file_name}_without_fault_collapsing.csv'

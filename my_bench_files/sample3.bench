@@ -1,0 +1,17 @@
+# sample3
+# 4 inputs
+# 1 outputs
+# 0 inverter
+# 4 gates ( 2 ANDs + 1 ORs + 1 NORs )
+
+INPUT(1)
+INPUT(2)
+INPUT(3)
+INPUT(4)
+
+OUTPUT(8)
+
+5 = AND(2, 3)
+6 = OR(1, 5)
+7 = NOR(4, 5)
+8 = AND(6, 7)
