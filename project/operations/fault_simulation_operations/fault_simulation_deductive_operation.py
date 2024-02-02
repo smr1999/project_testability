@@ -238,25 +238,16 @@ class FaultSimulationDeductiveOperation(Operation):
                 )
 
         else:
-            temp: set[Wire] = set()
+            zero_list = list()
+            one_set = set()
 
             for input_wire in gate.input_wires:
                 if input_wire.value == LogicValueBinaryEnum.ZERO.value:
-                    if len(all_fault_dict[gate.output_wires[0]]) == 0:
-                        all_fault_dict[gate.output_wires[0]] = all_fault_dict[gate.output_wires[0]].union(
-                            all_fault_dict[input_wire]
-                        )
-                    else:
-                        all_fault_dict[gate.output_wires[0]] = all_fault_dict[gate.output_wires[0]].intersection(
-                            all_fault_dict[input_wire]
-                        )
+                    zero_list.append(all_fault_dict[input_wire])
                 else:
-                    temp.union(
-                        all_fault_dict[input_wire]
-                    )
+                    one_set.union(all_fault_dict[input_wire])
 
-            all_fault_dict[gate.output_wires[0]
-                           ] = all_fault_dict[gate.output_wires[0]] - temp
+            all_fault_dict[gate.output_wires[0]] = set.intersection(*zero_list) - one_set
 
         all_fault_dict[gate.output_wires[0]].add(
             f'{gate.output_wires[0].id}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
@@ -280,25 +271,16 @@ class FaultSimulationDeductiveOperation(Operation):
                 )
 
         else:
-            temp: set[Wire] = set()
+            zero_list = list()
+            one_set = set()
 
             for input_wire in gate.input_wires:
                 if input_wire.value == LogicValueBinaryEnum.ZERO.value:
-                    if len(all_fault_dict[gate.output_wires[0]]) == 0:
-                        all_fault_dict[gate.output_wires[0]] = all_fault_dict[gate.output_wires[0]].union(
-                            all_fault_dict[input_wire]
-                        )
-                    else:
-                        all_fault_dict[gate.output_wires[0]] = all_fault_dict[gate.output_wires[0]].intersection(
-                            all_fault_dict[input_wire]
-                        )
+                    zero_list.append(all_fault_dict[input_wire])
                 else:
-                    temp.union(
-                        all_fault_dict[input_wire]
-                    )
+                    one_set.union(all_fault_dict[input_wire])
 
-            all_fault_dict[gate.output_wires[0]
-                           ] = all_fault_dict[gate.output_wires[0]] - temp
+            all_fault_dict[gate.output_wires[0]] = set.intersection(*zero_list) - one_set
 
         all_fault_dict[gate.output_wires[0]].add(
             f'{gate.output_wires[0].id}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
@@ -322,25 +304,16 @@ class FaultSimulationDeductiveOperation(Operation):
                 )
 
         else:
-            temp: set[Wire] = set()
+            zero_set = set()
+            one_list = list()
 
             for input_wire in gate.input_wires:
                 if input_wire.value == LogicValueBinaryEnum.ONE.value:
-                    if len(all_fault_dict[gate.output_wires[0]]) == 0:
-                        all_fault_dict[gate.output_wires[0]] = all_fault_dict[gate.output_wires[0]].union(
-                            all_fault_dict[input_wire]
-                        )
-                    else:
-                        all_fault_dict[gate.output_wires[0]] = all_fault_dict[gate.output_wires[0]].intersection(
-                            all_fault_dict[input_wire]
-                        )
+                    one_list.append(all_fault_dict[input_wire])
                 else:
-                    temp.union(
-                        all_fault_dict[input_wire]
-                    )
+                    zero_set.union(all_fault_dict[input_wire])
 
-            all_fault_dict[gate.output_wires[0]
-                           ] = all_fault_dict[gate.output_wires[0]] - temp
+            all_fault_dict[gate.output_wires[0]] = set.intersection(*one_list) - zero_set
 
         all_fault_dict[gate.output_wires[0]].add(
             f'{gate.output_wires[0].id}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
@@ -364,25 +337,16 @@ class FaultSimulationDeductiveOperation(Operation):
                 )
 
         else:
-            temp: set[Wire] = set()
+            zero_set = set()
+            one_list = list()
 
             for input_wire in gate.input_wires:
                 if input_wire.value == LogicValueBinaryEnum.ONE.value:
-                    if len(all_fault_dict[gate.output_wires[0]]) == 0:
-                        all_fault_dict[gate.output_wires[0]] = all_fault_dict[gate.output_wires[0]].union(
-                            all_fault_dict[input_wire]
-                        )
-                    else:
-                        all_fault_dict[gate.output_wires[0]] = all_fault_dict[gate.output_wires[0]].intersection(
-                            all_fault_dict[input_wire]
-                        )
+                    one_list.append(all_fault_dict[input_wire])
                 else:
-                    temp.union(
-                        all_fault_dict[input_wire]
-                    )
+                    zero_set.union(all_fault_dict[input_wire])
 
-            all_fault_dict[gate.output_wires[0]
-                           ] = all_fault_dict[gate.output_wires[0]] - temp
+            all_fault_dict[gate.output_wires[0]] = set.intersection(*one_list) - zero_set
 
         all_fault_dict[gate.output_wires[0]].add(
             f'{gate.output_wires[0].id}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
@@ -397,34 +361,34 @@ class FaultSimulationDeductiveOperation(Operation):
 
         all_fault_dict[gate.output_wires[0]] = set()
 
+        include_faults : list = list()
+        exclude_faults: list = list()
+
         for index in range(1, 2**len(gate.input_wires)):
             binary_index: str = bin(index)[2:]
+            binary_index = binary_index.zfill(len(gate.input_wires))
 
-            if binary_index.count('1') % 2 == 1:
-                binary_index = binary_index.zfill(len(gate.input_wires))
-                include_wires: set[Wire] = set()
-                exclude_wires: set[Wire] = set()
+            temp_fault_set: set = set()
 
-                for i in range(len(gate.input_wires)):
-                    if binary_index[i] == LogicValueBinaryEnum.ZERO.value:
-                        exclude_wires = exclude_wires.union(
+            for i in range(len(gate.input_wires)):
+                if binary_index[i] == LogicValueBinaryEnum.ONE.value:
+                    if len(temp_fault_set) == 0:
+                        temp_fault_set = temp_fault_set.union(
                             all_fault_dict[gate.input_wires[i]]
                         )
                     else:
-                        if len(include_wires) == 0:
-                            include_wires = include_wires.union(
-                                all_fault_dict[gate.input_wires[i]]
-                            )
+                        temp_fault_set = temp_fault_set.intersection(
+                            all_fault_dict[gate.input_wires[i]]
+                        )
+            
+            if binary_index.count('1') % 2 == 1:
+                include_faults.append(temp_fault_set)
+            
+            else:
+                exclude_faults.append(temp_fault_set)
 
-                        else:
-                            include_wires = include_wires.intersection(
-                                all_fault_dict[gate.input_wires[i]]
-                            )
-
-                all_fault_dict[gate.output_wires[0]] = all_fault_dict[gate.output_wires[0]].union(
-                    include_wires - exclude_wires
-                )
-
+        all_fault_dict[gate.output_wires[0]] = set.union(*include_faults) - set.union(*exclude_faults)
+        
         all_fault_dict[gate.output_wires[0]].add(
             f'{gate.output_wires[0].id}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'
         )
@@ -438,33 +402,33 @@ class FaultSimulationDeductiveOperation(Operation):
 
         all_fault_dict[gate.output_wires[0]] = set()
 
+        include_faults : list = list()
+        exclude_faults: list = list()
+
         for index in range(1, 2**len(gate.input_wires)):
             binary_index: str = bin(index)[2:]
+            binary_index = binary_index.zfill(len(gate.input_wires))
 
-            if binary_index.count('1') % 2 == 1:
-                binary_index = binary_index.zfill(len(gate.input_wires))
-                include_wires: set[Wire] = set()
-                exclude_wires: set[Wire] = set()
+            temp_fault_set: set = set()
 
-                for i in range(len(gate.input_wires)):
-                    if binary_index[i] == LogicValueBinaryEnum.ZERO.value:
-                        exclude_wires = exclude_wires.union(
+            for i in range(len(gate.input_wires)):
+                if binary_index[i] == LogicValueBinaryEnum.ONE.value:
+                    if len(temp_fault_set) == 0:
+                        temp_fault_set = temp_fault_set.union(
                             all_fault_dict[gate.input_wires[i]]
                         )
                     else:
-                        if len(include_wires) == 0:
-                            include_wires = include_wires.union(
-                                all_fault_dict[gate.input_wires[i]]
-                            )
+                        temp_fault_set = temp_fault_set.intersection(
+                            all_fault_dict[gate.input_wires[i]]
+                        )
+            
+            if binary_index.count('1') % 2 == 1:
+                include_faults.append(temp_fault_set)
+            
+            else:
+                exclude_faults.append(temp_fault_set)
 
-                        else:
-                            include_wires = include_wires.intersection(
-                                all_fault_dict[gate.input_wires[i]]
-                            )
-
-                all_fault_dict[gate.output_wires[0]] = all_fault_dict[gate.output_wires[0]].union(
-                    include_wires - exclude_wires
-                )
+        all_fault_dict[gate.output_wires[0]] = set.union(*include_faults) - set.union(*exclude_faults)
 
         all_fault_dict[gate.output_wires[0]].add(
             f'{gate.output_wires[0].id}_s-a-{LogicValueBinaryEnum.ONE.value if gate.output_wires[0].value == LogicValueBinaryEnum.ZERO.value else LogicValueBinaryEnum.ZERO.value}'

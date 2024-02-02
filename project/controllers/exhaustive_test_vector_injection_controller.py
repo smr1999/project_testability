@@ -88,6 +88,38 @@ class ExhaustiveTestVectorInjectionController(Controller):
 
         return essential_test_vectors_
 
+    @property
+    def best_test_vectors(self) -> list[str]:
+        best_vectors: list[str] = list()
+
+        essential_test_vectors_: list[str] = self.essential_test_vectors
+        best_vectors = essential_test_vectors_
+
+        all_fault_dict: dict[str: set[str]] = dict()
+        for test_vector, detected_faults in self.__detected_fault_dict.items():
+            all_fault_dict[test_vector] = detected_faults.copy()
+
+        all_faults: set[str] = set.union(*list(all_fault_dict.copy().values()))
+
+        for essential_test_vector in essential_test_vectors_:
+            for test_vector, detected_faults in all_fault_dict.items():
+                detected_faults -= self.__detected_fault_dict[essential_test_vector]
+                all_faults -= self.__detected_fault_dict[essential_test_vector]
+
+        while len(all_faults) != 0:
+            best_vector = max(
+                all_fault_dict, key=lambda k: len(all_fault_dict[k]))
+            # print(best_vector)
+            can_find_vectors: set[str] = self.__detected_fault_dict[best_vector]
+
+            best_vectors.append(best_vector)
+
+            for test_vector, detected_faults in all_fault_dict.items():
+                detected_faults -= can_find_vectors
+                all_faults -= can_find_vectors
+
+        return best_vectors
+
     def run(self) -> None:
         for test_vector in range(2**len(self.__network_controller.input_gates)):
             test_vector_bin: str = bin(test_vector)[2:].zfill(

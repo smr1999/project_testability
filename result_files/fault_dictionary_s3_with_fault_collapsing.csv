@@ -1,0 +1,9 @@
+test vector,1_s-a-1,6_s-a-0,5_s-a-0,2_s-a-0,4_s-a-0,6_s-a-1,2_s-a-1,3_s-a-1,Essential / Not Essential
+000,,✓,,,,,,,Not Essential
+001,,✓,,,,,,,Not Essential
+010,,✓,,,,,,,Not Essential
+011,✓,✓,,,✓,,,,Essential
+100,,✓,,,,,,,Not Essential
+101,,✓,,,,,✓,,Essential
+110,,✓,✓,,,,,✓,Essential
+111,,,,✓,,✓,,,Essential

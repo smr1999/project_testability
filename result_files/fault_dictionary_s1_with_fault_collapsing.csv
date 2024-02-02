@@ -1,0 +1,17 @@
+test vector,5_s-a-0,7_s-a-1,8_s-a-1,4_s-a-0,5_2_s-a-0,3_s-a-1,8_s-a-0,5_s-a-1,5_1_s-a-0,6_s-a-1,1_s-a-0,2_s-a-1,Essential / Not Essential
+0000,,,✓,,,,,✓,,,,,Not Essential
+0001,,,✓,,,,,✓,,✓,,,Not Essential
+0010,,,✓,,,,,✓,,,,✓,Not Essential
+0011,,,✓,,,,,✓,,✓,,✓,Not Essential
+0100,,,✓,,,✓,,✓,,,,,Not Essential
+0101,,,✓,,,✓,,✓,,✓,,,Not Essential
+0110,✓,,,,✓,,✓,,✓,,,,Not Essential
+0111,✓,,,,,,✓,,✓,,,,Not Essential
+1000,,✓,✓,,,,,✓,,,,,Not Essential
+1001,,,,✓,,,✓,,,,✓,,Not Essential
+1010,,✓,✓,,,,,✓,,,,✓,Not Essential
+1011,,,,✓,,,✓,,,,✓,,Not Essential
+1100,,✓,✓,,,✓,,✓,,,,,Not Essential
+1101,,,,✓,,,✓,,,,✓,,Not Essential
+1110,✓,,,,✓,,✓,,,,,,Not Essential
+1111,,,,,,,✓,,,,,,Not Essential

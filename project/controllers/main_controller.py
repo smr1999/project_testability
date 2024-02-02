@@ -98,3 +98,5 @@ class MainController(Controller):
         )
         print(
             f'Fault dictionary of {self.bench_file_name} with fault collapsing generated in {self.fault_dictionary_file_name}_with_fault_collapsing.csv.')
+
+        print('Test vectors: ', ','.join(self.__exhaustive_test_vector_injection_controller.best_test_vectors))

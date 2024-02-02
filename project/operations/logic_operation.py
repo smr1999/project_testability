@@ -10,6 +10,20 @@ from project.enums.logic_value_enum import (
 class LogicOperation(Operation):
     class BasicLogicOperaion(Operation):
         @classmethod
+        def buffer_operation(cls, bit_1: str) -> str:
+            if bit_1 == LogicValueEnum.ZERO.value:
+                return LogicValueEnum.ZERO.value
+
+            if bit_1 == LogicValueEnum.ONE.value:
+                return LogicValueEnum.ONE.value
+
+            if bit_1 == LogicValueEnum.HIGH_IMPEDANCE.value:
+                return LogicValueEnum.UNKNOWN.value
+
+            if bit_1 == LogicValueEnum.UNKNOWN.value:
+                return LogicValueEnum.UNKNOWN.value
+
+        @classmethod
         def not_operation(cls, bit_1: str) -> str:
             if bit_1 == LogicValueEnum.ZERO.value:
                 return LogicValueEnum.ONE.value
@@ -18,74 +32,131 @@ class LogicOperation(Operation):
                 return LogicValueEnum.ZERO.value
 
             if bit_1 == LogicValueEnum.HIGH_IMPEDANCE.value:
-                return LogicValueEnum.HIGH_IMPEDANCE.value
+                return LogicValueEnum.UNKNOWN.value
 
             if bit_1 == LogicValueEnum.UNKNOWN.value:
                 return LogicValueEnum.UNKNOWN.value
 
         @classmethod
         def and_operation(cls, bit_1: str, bit_2: str) -> str:
-            if bit_1 == LogicValueEnum.ZERO.value:
+            if bit_1 == LogicValueEnum.ZERO.value and bit_2 == LogicValueEnum.ZERO.value:
+                return LogicValueEnum.ZERO.value
+            if bit_1 == LogicValueEnum.ZERO.value and bit_2 == LogicValueEnum.ONE.value:
+                return LogicValueEnum.ZERO.value
+            if bit_1 == LogicValueEnum.ZERO.value and bit_2 == LogicValueEnum.HIGH_IMPEDANCE.value:
+                return LogicValueEnum.ZERO.value
+            if bit_1 == LogicValueEnum.ZERO.value and bit_2 == LogicValueEnum.UNKNOWN.value:
                 return LogicValueEnum.ZERO.value
 
-            if bit_1 == LogicValueEnum.ONE.value:
-                return bit_2
 
-            if bit_1 == LogicValueEnum.HIGH_IMPEDANCE.value:
-                if bit_2 == LogicValueEnum.ZERO.value:
-                    return LogicValueEnum.ZERO.value
-
-                if bit_2 == LogicValueEnum.ONE.value or bit_2 == LogicValueEnum.HIGH_IMPEDANCE.value:
-                    return LogicValueEnum.HIGH_IMPEDANCE.value
-
+            if bit_1 == LogicValueEnum.ONE.value and bit_2 == LogicValueEnum.ZERO.value:
+                return LogicValueEnum.ZERO.value
+            if bit_1 == LogicValueEnum.ONE.value and bit_2 == LogicValueEnum.ONE.value:
+                return LogicValueEnum.ONE.value
+            if bit_1 == LogicValueEnum.ONE.value and bit_2 == LogicValueEnum.HIGH_IMPEDANCE.value:
+                return LogicValueEnum.UNKNOWN.value
+            if bit_1 == LogicValueEnum.ONE.value and bit_2 == LogicValueEnum.UNKNOWN.value:
                 return LogicValueEnum.UNKNOWN.value
 
-            if bit_1 == LogicValueEnum.UNKNOWN.value:
-                if bit_2 == LogicValueEnum.ZERO.value:
-                    return LogicValueEnum.ZERO.value
 
+            if bit_1 == LogicValueEnum.HIGH_IMPEDANCE.value and bit_2 == LogicValueEnum.ZERO.value:
+                return LogicValueEnum.ZERO.value
+            if bit_1 == LogicValueEnum.HIGH_IMPEDANCE.value and bit_2 == LogicValueEnum.ONE.value:
+                return LogicValueEnum.UNKNOWN.value
+            if bit_1 == LogicValueEnum.HIGH_IMPEDANCE.value and bit_2 == LogicValueEnum.HIGH_IMPEDANCE.value:
+                return LogicValueEnum.UNKNOWN.value
+            if bit_1 == LogicValueEnum.HIGH_IMPEDANCE.value and bit_2 == LogicValueEnum.UNKNOWN.value:
+                return LogicValueEnum.UNKNOWN.value
+        
+            if bit_1 == LogicValueEnum.UNKNOWN.value and bit_2 == LogicValueEnum.ZERO.value:
+                return LogicValueEnum.ZERO.value
+            if bit_1 == LogicValueEnum.UNKNOWN.value and bit_2 == LogicValueEnum.ONE.value:
+                return LogicValueEnum.UNKNOWN.value
+            if bit_1 == LogicValueEnum.UNKNOWN.value and bit_2 == LogicValueEnum.HIGH_IMPEDANCE.value:
+                return LogicValueEnum.UNKNOWN.value
+            if bit_1 == LogicValueEnum.UNKNOWN.value and bit_2 == LogicValueEnum.UNKNOWN.value:
                 return LogicValueEnum.UNKNOWN.value
 
         @classmethod
         def or_operation(cls, bit_1: str, bit_2: str) -> str:
-            if bit_1 == LogicValueEnum.ZERO.value:
-                return bit_2
-
-            if bit_1 == LogicValueEnum.ONE.value:
+            if bit_1 == LogicValueEnum.ZERO.value and bit_2 == LogicValueEnum.ZERO.value:
+                return LogicValueEnum.ZERO.value
+            if bit_1 == LogicValueEnum.ZERO.value and bit_2 == LogicValueEnum.ONE.value:
                 return LogicValueEnum.ONE.value
-
-            if bit_1 == LogicValueEnum.HIGH_IMPEDANCE.value:
-                if bit_2 == LogicValueEnum.ZERO.value or bit_2 == LogicValueEnum.HIGH_IMPEDANCE.value:
-                    return LogicValueEnum.HIGH_IMPEDANCE.value
-
-                if bit_2 == LogicValueEnum.ONE.value:
-                    return LogicValueEnum.ONE.value
-
+            if bit_1 == LogicValueEnum.ZERO.value and bit_2 == LogicValueEnum.HIGH_IMPEDANCE.value:
+                return LogicValueEnum.UNKNOWN.value
+            if bit_1 == LogicValueEnum.ZERO.value and bit_2 == LogicValueEnum.UNKNOWN.value:
                 return LogicValueEnum.UNKNOWN.value
 
-            if bit_1 == LogicValueEnum.UNKNOWN.value:
-                if bit_2 == LogicValueEnum.ONE.value:
-                    return LogicValueEnum.ONE.value
 
+            if bit_1 == LogicValueEnum.ONE.value and bit_2 == LogicValueEnum.ZERO.value:
+                return LogicValueEnum.ONE.value
+            if bit_1 == LogicValueEnum.ONE.value and bit_2 == LogicValueEnum.ONE.value:
+                return LogicValueEnum.ONE.value
+            if bit_1 == LogicValueEnum.ONE.value and bit_2 == LogicValueEnum.HIGH_IMPEDANCE.value:
+                return LogicValueEnum.ONE.value
+            if bit_1 == LogicValueEnum.ONE.value and bit_2 == LogicValueEnum.UNKNOWN.value:
+                return LogicValueEnum.ONE.value
+
+
+            if bit_1 == LogicValueEnum.HIGH_IMPEDANCE.value and bit_2 == LogicValueEnum.ZERO.value:
+                return LogicValueEnum.UNKNOWN.value
+            if bit_1 == LogicValueEnum.HIGH_IMPEDANCE.value and bit_2 == LogicValueEnum.ONE.value:
+                return LogicValueEnum.ONE.value
+            if bit_1 == LogicValueEnum.HIGH_IMPEDANCE.value and bit_2 == LogicValueEnum.HIGH_IMPEDANCE.value:
+                return LogicValueEnum.UNKNOWN.value
+            if bit_1 == LogicValueEnum.HIGH_IMPEDANCE.value and bit_2 == LogicValueEnum.UNKNOWN.value:
+                return LogicValueEnum.UNKNOWN.value
+        
+            if bit_1 == LogicValueEnum.UNKNOWN.value and bit_2 == LogicValueEnum.ZERO.value:
+                return LogicValueEnum.UNKNOWN.value
+            if bit_1 == LogicValueEnum.UNKNOWN.value and bit_2 == LogicValueEnum.ONE.value:
+                return LogicValueEnum.ONE.value
+            if bit_1 == LogicValueEnum.UNKNOWN.value and bit_2 == LogicValueEnum.HIGH_IMPEDANCE.value:
+                return LogicValueEnum.UNKNOWN.value
+            if bit_1 == LogicValueEnum.UNKNOWN.value and bit_2 == LogicValueEnum.UNKNOWN.value:
                 return LogicValueEnum.UNKNOWN.value
 
         @classmethod
         def xor_operation(cls, bit_1: str, bit_2: str) -> str:
-            return cls.or_operation(
-                bit_1=cls.and_operation(
-                    bit_1=cls.not_operation(
-                        bit_1=bit_1
-                    ),
-                    bit_2=bit_2
-                ),
-                bit_2=cls.and_operation(
-                    bit_1=bit_1,
-                    bit_2=cls.not_operation(
-                        bit_1=bit_2
-                    )
-                )
-            )
+            if bit_1 == LogicValueEnum.ZERO.value and bit_2 == LogicValueEnum.ZERO.value:
+                return LogicValueEnum.ZERO.value
+            if bit_1 == LogicValueEnum.ZERO.value and bit_2 == LogicValueEnum.ONE.value:
+                return LogicValueEnum.ONE.value
+            if bit_1 == LogicValueEnum.ZERO.value and bit_2 == LogicValueEnum.HIGH_IMPEDANCE.value:
+                return LogicValueEnum.UNKNOWN.value
+            if bit_1 == LogicValueEnum.ZERO.value and bit_2 == LogicValueEnum.UNKNOWN.value:
+                return LogicValueEnum.UNKNOWN.value
 
+
+            if bit_1 == LogicValueEnum.ONE.value and bit_2 == LogicValueEnum.ZERO.value:
+                return LogicValueEnum.ONE.value
+            if bit_1 == LogicValueEnum.ONE.value and bit_2 == LogicValueEnum.ONE.value:
+                return LogicValueEnum.ZERO.value
+            if bit_1 == LogicValueEnum.ONE.value and bit_2 == LogicValueEnum.HIGH_IMPEDANCE.value:
+                return LogicValueEnum.UNKNOWN.value
+            if bit_1 == LogicValueEnum.ONE.value and bit_2 == LogicValueEnum.UNKNOWN.value:
+                return LogicValueEnum.UNKNOWN.value
+
+
+            if bit_1 == LogicValueEnum.HIGH_IMPEDANCE.value and bit_2 == LogicValueEnum.ZERO.value:
+                return LogicValueEnum.UNKNOWN.value
+            if bit_1 == LogicValueEnum.HIGH_IMPEDANCE.value and bit_2 == LogicValueEnum.ONE.value:
+                return LogicValueEnum.UNKNOWN.value
+            if bit_1 == LogicValueEnum.HIGH_IMPEDANCE.value and bit_2 == LogicValueEnum.HIGH_IMPEDANCE.value:
+                return LogicValueEnum.UNKNOWN.value
+            if bit_1 == LogicValueEnum.HIGH_IMPEDANCE.value and bit_2 == LogicValueEnum.UNKNOWN.value:
+                return LogicValueEnum.UNKNOWN.value
+        
+            if bit_1 == LogicValueEnum.UNKNOWN.value and bit_2 == LogicValueEnum.ZERO.value:
+                return LogicValueEnum.UNKNOWN.value
+            if bit_1 == LogicValueEnum.UNKNOWN.value and bit_2 == LogicValueEnum.ONE.value:
+                return LogicValueEnum.UNKNOWN.value
+            if bit_1 == LogicValueEnum.UNKNOWN.value and bit_2 == LogicValueEnum.HIGH_IMPEDANCE.value:
+                return LogicValueEnum.UNKNOWN.value
+            if bit_1 == LogicValueEnum.UNKNOWN.value and bit_2 == LogicValueEnum.UNKNOWN.value:
+                return LogicValueEnum.UNKNOWN.value
+            
     @classmethod
     def input_operation(cls, bits: list[str]) -> str:
         assert len(bits) == 1
@@ -96,13 +167,18 @@ class LogicOperation(Operation):
     def output_operation(cls, bits: list[str]) -> str:
         assert len(bits) == 1
 
+        if bits[0] == LogicValueEnum.HIGH_IMPEDANCE.value:
+            bits[0] = LogicValueEnum.UNKNOWN.value
+
         return bits[0]
 
     @classmethod
     def buffer_operation(cls, bits: list[str]) -> str:
         assert len(bits) == 1
 
-        return bits[0]
+        return cls.BasicLogicOperaion.buffer_operation(
+            bit_1=bits[0]
+        )
 
     @classmethod
     def not_operation(cls, bits: list[str]) -> str:
@@ -190,5 +266,8 @@ class LogicOperation(Operation):
     @classmethod
     def fanout_operation(cls, bits: list[str]) -> str:
         assert len(bits) == 1
+
+        if bits[0] == LogicValueEnum.HIGH_IMPEDANCE.value:
+            bits[0] = LogicValueEnum.UNKNOWN.value
 
         return bits[0]

@@ -4,7 +4,8 @@ from project.controllers.main_controller import (
 
 
 if __name__ == '__main__':
-    test_names: list[str] = ['c17', 'sample1', 'sample2', 'sample3']
+    # test_names: list[str] = ['c17', 'sample1', 'sample2', 'sample3']
+    test_names: list[str] = ['s1', 's3']
 
     for test_name in test_names:
         print(f'Testing {test_name}')
